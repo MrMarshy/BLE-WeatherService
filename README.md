@@ -24,12 +24,14 @@ Bluetooth Low Energy to deliver the weather data to interested clients.
 
 
 #### Project Block Diagram(s)
-![Block Diagram](Docs/Img/BlockDiagram.png)
+TBC
+![](Docs/Img/BlockDiagram.png)
 
 #### Project UML Diagrams
 TBC
-#### Project Circuit Diagram (Optional)
-![MCP2515 Example System](Docs/Img/MCP2515-ExampleSystem.png)
+#### Project Circuit Diagram
+TBC
+![](Docs/Img/example.png)
 
 
 ----------------------------------------------------------------------
