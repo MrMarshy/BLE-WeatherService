@@ -69,7 +69,8 @@ Now you need to define a 16-bit UUID for the Custom Service and a 16-bit UUID fo
 The values for the 16-bit UUIDs that will be inserted into the base UUID can be choosen by random.
 
 #### Step 2 - Adding a Custom Value Characteristic to the Custom Weather Service
-A service is without a characteristic is next to nothing, so one is needed.
+
+TBC
 ----------------------------------------------------------------------
 
 ## References
