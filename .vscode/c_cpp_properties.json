@@ -1,0 +1,170 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+	{
+            "name": "NRF52840 Feather No SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_ADA40",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "BSP_DEFINES_ONLY",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "BSP_DEFINES_ONLY",
+                "FREERTOS",
+                "SDK_CONFIG_H"
+            ],
+            "compilerPath": "C:\\Users\\alan\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+	{
+            "name": "NRF52840 Feather with SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_ADA40",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "FREERTOS",
+                "SDK_CONFIG_H",
+                "NRF_SD_BLE_API_VERSION=6",
+                "S140",
+                "SOFTDEVICE_PRESENT",
+                "SWI_DISABLE0"
+            ],
+            "compilerPath": "C:\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+        {
+            "name": "NRF52840 NANO BLE Sense No SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_NAN033SENSE",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "BSP_DEFINES_ONLY",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "BSP_DEFINES_ONLY",
+                "FREERTOS",
+                "SDK_CONFIG_H"
+            ],
+            "compilerPath": "C:\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+	{
+            "name": "NRF52840 NANO BLE Sense with SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_NAN033SENSE",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "FREERTOS",
+                "SDK_CONFIG_H",
+                "NRF_SD_BLE_API_VERSION=6",
+                "S140",
+                "SOFTDEVICE_PRESENT",
+                "SWI_DISABLE0"
+            ],
+            "compilerPath": "C:\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+        {
+            "name": "NRF52840 Dongle No SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_DONGLE",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "FREERTOS",
+                "SDK_CONFIG_H"
+            ],
+            "compilerPath": "C:\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        },
+	{
+            "name": "NRF52840 Dongle with SoftDevice",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Lab/nRF5_SDK_17.0.2_d674dde/**"
+                //"/home/alan/Lab/nRF5_SDK_16.0.0_98a08e2/**"
+            ],
+            "defines": [
+                "BOARD_DONGLE",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "FREERTOS",
+                "SDK_CONFIG_H",
+                "NRF_SD_BLE_API_VERSION=6",
+                "S140",
+                "SOFTDEVICE_PRESENT",
+                "SWI_DISABLE0"
+            ],
+            "compilerPath": "C:\\Lab\\Toolchains\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\arm-none-eabi-gcc",
+            //"compilerPath":"/home/alan/Desktop/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
