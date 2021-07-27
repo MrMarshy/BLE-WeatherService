@@ -30,6 +30,9 @@ Bluetooth Low Energy to deliver the weather data to interested clients.
 #### Project Block Diagram(s)
 ![Block Diagram](Docs/Img/BlockDiagram.png)
 
+#### Sensor Measurement Flowchart
+![Measurement Flowchart](Docs/Img/MeasurementFlowChart.png)
+
 #### Project UML Diagrams
 TBC
 
