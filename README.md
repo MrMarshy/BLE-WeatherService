@@ -8,7 +8,11 @@
 ----------------------------------------------------------------------
 
 ### Project Description
-
+The nRF52840 microcontroller is configured as a Bluetooth Low Energy peripheral devce. It reads temperature and 
+pressure sensor data from the BMP180 sensor over I2C and sends the data to a Bluetooth Low Energy device 
+configured as a central. The central must enable Bluetooth Low Energy notifications on the nRF52840 to start 
+receiving sensor data. The central device can request either pressure or temperature reading by writing a 0x01 
+(temperature) or 0x02 (pressure) to the nRF52840.
 
 
 ----------------------------------------------------------------------
