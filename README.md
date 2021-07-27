@@ -33,6 +33,14 @@ Bluetooth Low Energy to deliver the weather data to interested clients.
 #### Sensor Measurement Flowchart
 ![Measurement Flowchart](Docs/Img/MeasurementFlowChart.png)
 
+
+#### Screenshots
+![PuTTY Initial Start](Docs/Img/fig1.PNG)
+![nRFConnect with Dongle as Central](Docs/Img/fig2.PNG)
+![PuTTY Connection Event](Docs/Img/fig3.PNG)
+![nRFConnect Enable Notifications](Docs/Img/fig5.PNG)
+![PuTTY Notification Sensor Value Update](Docs/Img/fig6.PNG)
+
 #### Project UML Diagrams
 TBC
 
