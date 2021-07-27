@@ -50,29 +50,8 @@ TBC
 ----------------------------------------------------------------------
 ### Installation/Tutorials
 
-#### Step 1 - Create a Custom Base UUID
-Use [UUID Generator](https://www.uuidgenerator.net/version4) to generate a 128-bit UUID.
-In my case this was:
-```
-d810a115-6a86-4de3-b88d-7bf1443af9fd
-```
-The UUID is given as the sixteen octets of a UUID are represented as 32 hexadecimal (base 16) digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12. The 16 octets are given in big-endian, while nordic use the small-endian representation in their SDK. Thus, you must reverse the byte-ordering when you define your UUID base in the ble_custom_weather_service.h, as shown below.
-```
-/* This code belongs in ble_custom_weather_service.h*/
-#define CUSTOM_SERVICE_UUID_BASE         {0xD8, 0x10, 0xA1, 0x15, 0x6A, 0x86, 0x4D, 0xE3, \
-                                          0xB8, 0x8D, 0x7B, 0xF1, 0x44, 0x3A, 0xF9, 0xFD}
-
-```
-
-Now you need to define a 16-bit UUID for the Custom Service and a 16-bit UUID for a Custom Value Characteristic.
-```
-/* This code belongs in ble_custom_weather_service.h*/
-#define CUSTOM_SERVICE_UUID               0x1400
-#define CUSTOM_VALUE_CHAR_UUID            0x1401
-```
-The values for the 16-bit UUIDs that will be inserted into the base UUID can be choosen by random.
-
-#### Step 2 - Adding a Custom Value Characteristic to the Custom Weather Service
+Follow the guide at [nRF52-Bluetooth-Course](https://github.com/NordicPlayground/nRF52-Bluetooth-Course) to 
+create a custom bluetooth low energy service.
 
 TBC
 ----------------------------------------------------------------------
