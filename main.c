@@ -699,10 +699,16 @@ int main(void){
     
     // Initialize BMP180 sensor.
     BMP180_t bmp;
-
-    BMP180_Init(&bmp, 240.51);
+    
+    /* https://keisan.casio.com/exec/system/1224575267 */
+    float my_elevation = 250.41f; // metres
+    float sealevel = 2312.58f; //hPa	
+    
+    BMP180_Init(&bmp, my_elevation, sealevel);
     m_bmp = &bmp;
     BMP180_ReadTemperature(m_bmp);
+    BMP180_ReadPressure(m_bmp);
+    BMP180_ReadAltitude(m_bmp);
 
     bool erase_bonds;
 

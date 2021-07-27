@@ -8,6 +8,7 @@
 #include "nrf_log_default_backends.h"
 #include "boards.h"
 #include <string.h>
+#include <math.h>
 
 #if 0
 static const char* CALIB_STR[] = {
@@ -67,7 +68,15 @@ static void enable_twi(void){
 
 static void twi_handler(nrf_drv_twi_evt_t const * p_event, void * p_context);
 
-void BMP180_Init(BMP180_t * const bmp, float elevation){
+static bool valid_uresult(uint16_t result){
+    return (result != 0) && (result != 0xFFFF);
+}
+
+static bool valid_result(int16_t result){
+    return (result != 0) && (result != 0xFFFF);
+}
+
+void BMP180_Init(BMP180_t * const bmp, float elevation, float sea_level){
     
     if(!bmp){
         NRF_LOG_ERROR("Unable to initalise BMP180 sensor.");
@@ -83,7 +92,7 @@ void BMP180_Init(BMP180_t * const bmp, float elevation){
     
     bmp->chip_id = 0;
     bmp->oversample = 3;
-    bmp->baseline = 1013.25f;
+    bmp->sea_level = sea_level; /* https://keisan.casio.com/exec/system/1224575267 */
     bmp->altitude = 0.0f;
     bmp->pressure = 0.0f;
     bmp->temperature = 0.0f;
@@ -171,44 +180,64 @@ static void BMP180_ReadCalibrationData(BMP180_t * const bmp){
     uint8_t result [22]= {0};
     
     for(int i = 0; i < 22; i+=2){
-        
-        BMP180_RegisterRead(CALIBRATION_REGS[i], &result[i], 1);
-        
-        BMP180_RegisterRead(CALIBRATION_REGS[i + 1], &result[i + 1], 1);
+        uint16_t check_uresult = 0;
+        int16_t check_result = 0;
+        bool valid = false;
 
+        do{
+            BMP180_RegisterRead(CALIBRATION_REGS[i], &result[i], 1);
+            
+            BMP180_RegisterRead(CALIBRATION_REGS[i + 1], &result[i + 1], 1);
+
+            switch(i){
+                case 6:
+                case 8:
+                case 10:
+                    check_uresult = ((uint16_t)result[i] << 8U) | (uint16_t)result[i + 1];
+                    valid = valid_uresult(check_uresult);
+                    break;
+                default:
+                    check_result = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1];
+                    valid = valid_result(check_result);
+                    break;
+            }
+
+        }while(!valid);
+        
         switch (i){
             case 0: // AC1
-                bmp->calib_data.AC1 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1];
+                bmp->calib_data.AC1 = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1];
+                
                 break;
             case 2: // AC2
-                bmp->calib_data.AC2 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.AC2 = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1]; 
                 break;
             case 4: // AC3
-                bmp->calib_data.AC3 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1];
+                bmp->calib_data.AC3 = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1];
                 break;
             case 6: // AC4
-                bmp->calib_data.AC4 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1];
+                bmp->calib_data.AC4 = ((uint16_t)result[i] << 8U) | (uint16_t)result[i + 1];
                 break;
             case 8: // AC5
-                bmp->calib_data.AC5 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1];
+                bmp->calib_data.AC5 = ((uint16_t)result[i] << 8U) | (uint16_t)result[i + 1];
                 break;
             case 10: // AC6
-                bmp->calib_data.AC6 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1];
+                bmp->calib_data.AC6 = ((uint16_t)result[i] << 8U) | (uint16_t)result[i + 1];
                 break;
             case 12: // B1
-                bmp->calib_data.B1 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.B1 = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1]; 
                 break;
             case 14: // B2
-                bmp->calib_data.B2 = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.B2 = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1]; 
                 break;
             case 16: // MB
-                bmp->calib_data.MB = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.MB = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1]; 
                 break;
             case 18: // MC
-                bmp->calib_data.MC = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.MC = ((int16_t)(result[i] << 8U)) | (int16_t)result[i + 1]; 
                 break;
             case 20: // MD
-                bmp->calib_data.MD = ((uint8_t)(result[i] << 8U)) | (uint8_t)result[i + 1]; 
+                bmp->calib_data.MD = ((int16_t)result[i] << 8U) | (int16_t)result[i + 1]; 
                 break;
             default:
                 ;
@@ -237,9 +266,9 @@ void BMP180_ReadTemperature(BMP180_t * const bmp){
     }
 
     /* Read Uncompensated temperature value */
-    uint8_t const value = 0x2E;
+    uint8_t const MEASURE_TEMPERATURE = 0x2E;
     uint8_t const CNRTL_MEAS_REG = 0xF4;
-    BMP180_RegisterWrite(CNRTL_MEAS_REG, value);
+    BMP180_RegisterWrite(CNRTL_MEAS_REG, MEASURE_TEMPERATURE);
     nrf_delay_us(5000); // Wait >= 4.5ms as per datasheet.
 
     uint8_t result[2] = {0};
@@ -252,11 +281,101 @@ void BMP180_ReadTemperature(BMP180_t * const bmp){
     /* Calculate True Temperature */
     long X1 = ((UT - (long)bmp->calib_data.AC6) * (long)bmp->calib_data.AC5 ) >> 15;
     long X2 = ((long)bmp->calib_data.MC << 11) / (X1 + (long)bmp->calib_data.MD);
-    long B5 = X1 + X2;
-    bmp->temperature = (float)((B5 + 8L) >> 4) / 10.0f;
+    bmp->calib_data.B5 = X1 + X2;
+    bmp->temperature = (float)((bmp->calib_data.B5 + 8L) >> 4) / 10.0f;
 
     NRF_LOG_INFO("Temperature is %d deg Celsius", (int32_t)bmp->temperature);
     
+}
+
+void BMP180_ReadPressure(BMP180_t * const bmp){
+    if(!bmp){
+        return;
+    }
+
+    /* Read Uncompensated pressure value */
+    uint8_t const MEASURE_PRESSURE = 0x34;
+    uint8_t const value = MEASURE_PRESSURE + (bmp->sampling_mode << 6);
+    uint8_t const CNRTL_MEAS_REG = 0xF4;
+    BMP180_RegisterWrite(CNRTL_MEAS_REG, value);
+
+    /* Delay is dependent on the sampling mode chosen */
+    switch(bmp->sampling_mode){
+        case 0: 
+            nrf_delay_ms(5);
+            break;
+        case 1: 
+            nrf_delay_ms(8);
+            break;
+        case 2:
+            nrf_delay_ms(14);
+            break;
+        case 3:
+            nrf_delay_ms(26);
+        default:
+            nrf_delay_ms(5);
+    }
+    
+    uint8_t const OUT_MSB = 0xF6;
+    uint8_t const OUT_LSB = 0xF7;
+    uint8_t const OUT_XLSB = 0xF8;
+    uint8_t pressure[3] = {0};
+    BMP180_RegisterRead(OUT_MSB, &pressure[0], 1);
+    BMP180_RegisterRead(OUT_LSB, &pressure[1], 1);
+    BMP180_RegisterRead(OUT_XLSB, &pressure[2], 1);
+
+    long UP = (((long)pressure[0] << 16) + ((long)pressure[1] << 8) + (long)pressure[2]) >> (8 - bmp->sampling_mode);
+
+    /* Calculate True Pressure */
+    long B6, X1, X2, X3, B3, p;
+	unsigned long B4, B7;
+	B6 = (long)bmp->calib_data.B5 - 4000;
+	X1 = ((long)bmp->calib_data.B2 * (B6 * B6 >> 12)) >> 11;
+	X2 = ((long)bmp->calib_data.AC2 * B6) >> 11;
+	X3 = X1 + X2;
+	B3 = ((((long)bmp->calib_data.AC1 * 4 + X3) << bmp->oversample) + 2) >> 2;
+	X1 = (long)bmp->calib_data.AC3 * B6 >> 13;
+	X2 = ((long)bmp->calib_data.B1 * (B6 * B6 >> 12)) >> 16;
+	X3 = ((X1 + X2) + 2) >> 2;
+	B4 = (long)bmp->calib_data.AC4 * (unsigned long)(X3 + 32768) >> 15;
+	B7 = ((unsigned long)UP - B3) * (50000 >> bmp->oversample);
+	
+    if (B7 < 0x80000000){
+		p = (B7 * 2) / B4;
+    }
+	else{
+		p = (B7 / B4) * 2;
+    }
+
+	X1 = (p >> 8) * (p >> 8);
+	X1 = (X1 * 3038) >> 16;
+	X2 = (-7357 * p) >> 16;
+
+	p = p + ((X1 + X2 + 3791) >> 4);
+
+    bmp->pressure = (float)(p) / 100.0f;
+    NRF_LOG_INFO("Pressure is: %ld hPa", (long)(bmp->pressure));
+
+}
+
+/**
+ * Retrieve the altitude in metres
+ */
+void BMP180_ReadAltitude(BMP180_t * const bmp){
+    
+    if(!bmp){
+        return;
+    }
+
+    /* https://keisan.casio.com/exec/system/1224575267 */
+    bmp->sea_level = bmp->pressure / pow((1.0 - bmp->elevation/44330.0), 5.255);
+
+    double arg = (double)bmp->pressure / (double)bmp->sea_level;
+    bmp->altitude = (44330.0 * (1.0 - (float)pow(arg, 0.1902949)));
+
+    NRF_LOG_INFO("Altitude: %d metres", (int)bmp->altitude);
+
+
 }
 
 /*
