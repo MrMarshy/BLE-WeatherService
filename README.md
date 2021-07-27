@@ -28,11 +28,11 @@ Bluetooth Low Energy to deliver the weather data to interested clients.
 
 
 #### Project Block Diagram(s)
-TBC
-![](Docs/Img/BlockDiagram.png)
+![Block Diagram](Docs/Img/BlockDiagram.png)
 
 #### Project UML Diagrams
 TBC
+
 #### Project Circuit Diagram
 TBC
 ![](Docs/Img/example.png)
